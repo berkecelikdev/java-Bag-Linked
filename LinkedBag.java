@@ -3,8 +3,9 @@ public class LinkedBag<T> implements BagInterface<T>{
     private Node<T> firstNode; // Listenin başlangıç düğümü
     private int numberOfEntries;
 
+    // Constructor
     public LinkedBag(){
-        firstNode = null;
+        firstNode = null;  // Başta zincirin başı boştur
         numberOfEntries = 0;
     }
 
@@ -22,26 +23,27 @@ public class LinkedBag<T> implements BagInterface<T>{
     @Override
     public boolean add(T newEntry){
 
-        Node<T> newNode = new Node<>(newEntry);
-        newNode.next = firstNode;
-        firstNode = newNode;
+        Node<T> newNode = new Node<>(newEntry);  // Yeni veri için yeni node oluşturulur
+        newNode.next = firstNode;  // listenin başına (firstnode) bağlanır
+        firstNode = newNode;  // fristnode yeni düğüm olur
         numberOfEntries++;
         return true;
     }
 
-    // Listenin başındaki elemanı çıkarır
+    // Listenin başındaki (son eklenen) elemanı çıkarır
     @Override
     public T remove(){
 
         T result = null;
         if(firstNode != null){
             result = firstNode.data;
-            firstNode = firstNode.next;  // İlk düğümü devreden çıkar
+            firstNode = firstNode.next;  // İlk düğümü devreden çıkar (referansı kaydırılır)
             numberOfEntries--;
         }
         return result;
     }
 
+    // Seçilen bir elemanı siler
     @Override
     public boolean remove(T anEntry){
 
@@ -63,16 +65,17 @@ public class LinkedBag<T> implements BagInterface<T>{
         }
     }
 
+    // Bir elemandan kaç tane olduğunu sayar
     @Override
     public int getFrequencyOf(T anEntry){
 
-        int frequency = 0;
+        int frequency = 0;  // Sayaç
         Node<T> currentNode = firstNode;
         while(currentNode != null){
             if(anEntry.equals(currentNode.data)){
                 frequency++;
             }
-            currentNode = currentNode.next;
+            currentNode = currentNode.next;  // sonraki node'a geç
         }
         return frequency;
     }
@@ -82,6 +85,7 @@ public class LinkedBag<T> implements BagInterface<T>{
         return getReferenceTo(anEntry) != null;
     }
 
+    // Tüm verileri yeni diziye kopyalar
     @Override
     public T[] toArray(){
 
@@ -92,11 +96,12 @@ public class LinkedBag<T> implements BagInterface<T>{
         while(index < numberOfEntries && currentNode != null){
             result[index] = currentNode.data;
             index++;
-            currentNode = currentNode.next;
+            currentNode = currentNode.next;  // sonraki node'a geç
         }
         return result;
     }
 
+    // Her node'u tarar ve içlerindeki veriyi ekrana yazar
     @Override
     public void displayBag(){
         if(isEmpty()){
@@ -106,19 +111,20 @@ public class LinkedBag<T> implements BagInterface<T>{
             Node<T> currentNode = firstNode;
             while(currentNode != null){
                 System.out.println(currentNode.data + " ");
-                currentNode = currentNode.next;
+                currentNode = currentNode.next;  // sonraki node'a geç
             }
             System.out.println();
         }
     }
 
+    // Node'ları tarar ve aranan eleman bulununca node adresini döndürür.
     private Node<T> getReferenceTo(T anEntry){
         Node<T> currentNode = firstNode;
         while(currentNode != null){
             if(anEntry.equals(currentNode.data)){
                 return currentNode;
             }
-            currentNode = currentNode.next;
+            currentNode = currentNode.next;  // sonraki node'a geç
         }
         return null;
     }
